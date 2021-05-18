@@ -79,8 +79,6 @@ public class EditActivity extends AppCompatActivity {
                     tempUri = item.getUri();
                     imageContainer.setVisibility(View.VISIBLE);
                     imNewImage.setImageURI(Uri.parse(item.getUri()));
-                    imEditImage.setVisibility(View.INVISIBLE);
-                    imDeleteImage.setVisibility(View.INVISIBLE);
                 }
             }
         }
@@ -107,6 +105,7 @@ public class EditActivity extends AppCompatActivity {
         imNewImage.setImageResource(R.drawable.ic_image_def);
         imageContainer.setVisibility(View.GONE);
         fbAddImage.setVisibility(View.VISIBLE);
+        tempUri = item.setUri("");
     }
 
     public void onClickAddImage(View view) {

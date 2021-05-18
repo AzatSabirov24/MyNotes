@@ -28,8 +28,9 @@ public class ListItem implements Serializable {
         return uri;
     }
 
-    public void setUri(String uri) {
+    public String setUri(String uri) {
         this.uri = uri;
+        return uri;
     }
 
     public int getId() {
