@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">Lesson12_SQLite</string>
+    <string name="app_name">My Notes</string>
     <string name="empty_text">Отсутсвует название или описание заметки</string>
 </resources>
