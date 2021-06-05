@@ -1,9 +1,11 @@
 package com.example.lesson12_sqlite.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -16,19 +18,24 @@ import com.example.lesson12_sqlite.R;
 import com.example.lesson12_sqlite.db.MyConstants;
 import com.example.lesson12_sqlite.db.MyDbManager;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MyViewHolder> {
     private Context context;
-    private List<ListItem> mainArray;
+    public List<ListItem> mainArray;
+    private Activity activity;
+    private int menuPosition;
 
-    public MainAdapter(Context context) {
+    public MainAdapter(Context context, Activity activity) {
         this.context = context;
         mainArray = new ArrayList<>();
+        this.activity = activity;
     }
 
+     public int getMenuPosition() {
+       return menuPosition;
+   }
 
     @NonNull
     @Override
@@ -42,15 +49,17 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MyViewHolder> 
         holder.setData(mainArray.get(position).getTitle());
     }
 
+
     @Override
     public int getItemCount() {
         return mainArray.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnCreateContextMenuListener {
         private TextView tvTitle;
         private Context context;
         private List<ListItem> mainArray;
+
 
         public MyViewHolder(@NonNull View itemView, Context context, List<ListItem> mainArray) {
             super(itemView);
@@ -58,7 +67,16 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MyViewHolder> 
             this.mainArray = mainArray;
             tvTitle = itemView.findViewById(R.id.tvTitle);
             itemView.setOnClickListener(this);
+            itemView.setOnCreateContextMenuListener(this);
+            registerContextMenu(itemView);
         }
+
+
+        private void registerContextMenu(@NonNull View itemView) {
+           if (activity != null){
+               activity.registerForContextMenu(itemView);
+           }
+       }
 
         public void setData(String title) {
             tvTitle.setText(title);
@@ -71,6 +89,12 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MyViewHolder> 
             i.putExtra(MyConstants.EDIT_STATE, false);
             context.startActivity(i);
         }
+
+        @Override
+        public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+            menu.add(Menu.NONE, R.id.action_delete,
+                    Menu.NONE, R.string.delete_item);
+        }
     }
 
     public void updateAdapter(List<ListItem> newList) {
@@ -79,10 +103,10 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MyViewHolder> 
         notifyDataSetChanged();
     }
 
-    public void removeItem(int pos, MyDbManager dbManager){
-       dbManager.delete(mainArray.get(pos).getId());
-       mainArray.remove(pos);
-       notifyItemRangeChanged(0, mainArray.size());
-       notifyItemRemoved(pos);
+    public void removeItem(int pos, MyDbManager dbManager) {
+        dbManager.delete(mainArray.get(pos).getId());
+        mainArray.remove(pos);
+        notifyItemRangeChanged(0, mainArray.size());
+        notifyItemRemoved(pos);
     }
 }

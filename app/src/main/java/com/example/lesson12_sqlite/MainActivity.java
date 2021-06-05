@@ -2,13 +2,15 @@ package com.example.lesson12_sqlite;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.ContextMenu;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -54,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         myDbManager = new MyDbManager(this);
         rcView = findViewById(R.id.rcView);
         rcView.setLayoutManager(new LinearLayoutManager(this));
-        mainAdapter = new MainAdapter(this);
+        mainAdapter = new MainAdapter(this, this);
         getItemTouchHelper().attachToRecyclerView(rcView);
         rcView.setAdapter(mainAdapter);
     }
@@ -72,22 +74,44 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private ItemTouchHelper getItemTouchHelper(){
+    private ItemTouchHelper getItemTouchHelper() {
         return new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
-            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull  RecyclerView.ViewHolder target) {
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
                 return false;
             }
 
             @Override
-            public void onSwiped(@NonNull  RecyclerView.ViewHolder viewHolder, int direction) {
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 mainAdapter.removeItem(viewHolder.getAdapterPosition(), myDbManager);
             }
         });
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
         myDbManager.closeDb();
+    }
+
+    @Override
+    public void onCreateContextMenu(@NonNull ContextMenu menu, @NonNull View v, @Nullable ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflater = this.getMenuInflater();
+        inflater.inflate(R.menu.context_menu, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        int pos = mainAdapter.getMenuPosition();
+
+        if (item.getItemId() == R.id.action_delete) {
+            myDbManager.delete(mainAdapter.mainArray.get(pos).getId());
+            mainAdapter.mainArray.remove(pos);
+            mainAdapter.notifyItemRangeChanged(0, mainAdapter.mainArray.size());
+            mainAdapter.notifyItemRemoved(pos);
+        }
+        return super.onContextItemSelected(item);
+
     }
 }
