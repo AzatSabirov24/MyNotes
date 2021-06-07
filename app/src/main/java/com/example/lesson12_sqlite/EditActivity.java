@@ -3,6 +3,9 @@ package com.example.lesson12_sqlite;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -24,7 +27,6 @@ public class EditActivity extends AppCompatActivity {
     private ImageButton imEditImage, imDeleteImage;
     private EditText edTitle, edDesc;
     private MyDbManager myDbManager;
-    private FloatingActionButton fbAddImage;
     private static final int PICK_IMAGE_CODE = 123;
     private String tempUri = "empty";
     private boolean isEditState = true;
@@ -45,6 +47,20 @@ public class EditActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.edit_act_menu, menu);
+        return true;
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        imageContainer.setVisibility(View.VISIBLE);
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == PICK_IMAGE_CODE && data != null) {
@@ -59,7 +75,6 @@ public class EditActivity extends AppCompatActivity {
         edTitle = findViewById(R.id.edTitle);
         edDesc = findViewById(R.id.edDesc);
         imageContainer = findViewById(R.id.imageContainer);
-        fbAddImage = findViewById(R.id.fbAddImage);
         imNewImage = findViewById(R.id.imNewImage);
         imEditImage = findViewById(R.id.imEditImage);
         imDeleteImage = findViewById(R.id.imDeleteImage);
@@ -104,14 +119,9 @@ public class EditActivity extends AppCompatActivity {
     public void onClickDeleteImage(View view) {
         imNewImage.setImageResource(R.drawable.ic_image_def);
         imageContainer.setVisibility(View.GONE);
-        fbAddImage.setVisibility(View.VISIBLE);
         tempUri = item.setUri("");
     }
 
-    public void onClickAddImage(View view) {
-        imageContainer.setVisibility(View.VISIBLE);
-        view.setVisibility(View.GONE);
-    }
 
     public void onClickChooseImage(View view) {
         Intent chooser = new Intent(Intent.ACTION_OPEN_DOCUMENT);

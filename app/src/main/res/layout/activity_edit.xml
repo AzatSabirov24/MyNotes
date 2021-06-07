@@ -106,20 +106,6 @@
         app:srcCompat="@drawable/ic_save"
         app:tint="@color/white" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fbAddImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:alpha="1.0"
-        android:clickable="true"
-        android:onClick="onClickAddImage"
-        app:backgroundTint="@color/blue_dark"
-        app:layout_constraintBottom_toTopOf="@+id/floatingActionButton3"
-        app:layout_constraintEnd_toEndOf="@+id/floatingActionButton3"
-        app:srcCompat="@drawable/ic_add_image"
-        app:tint="#FFFFFF" />
-
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline2"
         android:layout_width="wrap_content"
