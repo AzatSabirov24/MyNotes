@@ -112,6 +112,5 @@ public class MainActivity extends AppCompatActivity {
             mainAdapter.notifyItemRemoved(pos);
         }
         return super.onContextItemSelected(item);
-
     }
 }
