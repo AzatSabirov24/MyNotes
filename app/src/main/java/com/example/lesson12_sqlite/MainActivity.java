@@ -8,9 +8,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -103,14 +105,33 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
-        int pos = mainAdapter.getMenuPosition();
 
-        if (item.getItemId() == R.id.action_delete) {
-            myDbManager.delete(mainAdapter.mainArray.get(pos).getId());
-            mainAdapter.mainArray.remove(pos);
-            mainAdapter.notifyItemRangeChanged(0, mainAdapter.mainArray.size());
-            mainAdapter.notifyItemRemoved(pos);
-        }
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setTitle(R.string.dialog_delete);
+        builder.setIcon(R.drawable.ic_dialog_delete);
+        builder.setPositiveButton(getString(R.string.dialog_positive_btn),
+                (dialog, which) -> {
+                    int pos = mainAdapter.getMenuPosition();
+
+                    if (item.getItemId() == R.id.action_delete) {
+                        myDbManager.delete(mainAdapter.mainArray.get(pos).getId());
+                        mainAdapter.mainArray.remove(pos);
+                        mainAdapter.notifyItemRangeChanged(0, mainAdapter.mainArray.size());
+                        mainAdapter.notifyItemRemoved(pos);
+                    }
+                    Toast.makeText(this, "Удалено", Toast.LENGTH_SHORT).show();
+                });
+
+        builder.setNeutralButton("Отмена", (dialog, which) -> {
+            AlertDialog alertDialog = builder.create();
+            alertDialog.dismiss();
+        });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
         return super.onContextItemSelected(item);
+    }
+
+    private void showAlertDialogToDelete() {
+//        AlertDialog;
     }
 }

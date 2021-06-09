@@ -5,4 +5,6 @@
     <string name="continue_">Продолжить</string>
     <string name="error_sign_in">Ошибка</string>
      <string name="sign_out">Выйти</string>
+    <string name="dialog_delete">Удалить?</string>
+    <string name="dialog_positive_btn">Ok</string>
 </resources>
