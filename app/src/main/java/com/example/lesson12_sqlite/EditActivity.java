@@ -19,7 +19,9 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import com.example.lesson12_sqlite.adapter.ListItem;
 import com.example.lesson12_sqlite.db.MyConstants;
 import com.example.lesson12_sqlite.db.MyDbManager;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class EditActivity extends AppCompatActivity {
     private ImageView imNewImage;
@@ -31,6 +33,8 @@ public class EditActivity extends AppCompatActivity {
     private String tempUri = "empty";
     private boolean isEditState = true;
     private ListItem item;
+    private DatabaseReference dRef;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +60,9 @@ public class EditActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Intent chooser = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        chooser.setType("image/*");
+        startActivityForResult(chooser, PICK_IMAGE_CODE);
         imageContainer.setVisibility(View.VISIBLE);
         return super.onOptionsItemSelected(item);
     }
@@ -100,6 +107,7 @@ public class EditActivity extends AppCompatActivity {
     }
 
     public void onClickSave(View view) {
+        saveNote();
         String title = edTitle.getText().toString();
         String desc = edDesc.getText().toString();
         String uri = tempUri;
@@ -117,15 +125,27 @@ public class EditActivity extends AppCompatActivity {
     }
 
     public void onClickDeleteImage(View view) {
-        imNewImage.setImageResource(R.drawable.ic_image_def);
-        imageContainer.setVisibility(View.GONE);
-        tempUri = item.setUri("");
+            imageContainer.setVisibility(View.GONE);
+            tempUri = item.setUri("");
     }
-
 
     public void onClickChooseImage(View view) {
         Intent chooser = new Intent(Intent.ACTION_OPEN_DOCUMENT);
         chooser.setType("image/*");
         startActivityForResult(chooser, PICK_IMAGE_CODE);
+    }
+
+    private void saveNote() {
+        dRef = FirebaseDatabase.getInstance().getReference(edTitle.getText().toString());
+        mAuth = FirebaseAuth.getInstance();
+        if (mAuth.getUid() != null) {
+            String key = dRef.push().getKey();
+            NewNote note = new NewNote();
+            note.setImageId(tempUri);
+            note.setTitle(edTitle.getText().toString());
+            note.setDescription(edDesc.getText().toString());
+            note.setKey(key);
+            if (key != null) dRef.child(mAuth.getUid()).child(key).setValue(note);
+        }
     }
 }

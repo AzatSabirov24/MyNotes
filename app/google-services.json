@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "926216093259",
+    "firebase_url": "https://my-notes-8447b-default-rtdb.firebaseio.com",
+    "project_id": "my-notes-8447b",
+    "storage_bucket": "my-notes-8447b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:926216093259:android:4773be773a9d8c6b1217ce",
+        "android_client_info": {
+          "package_name": "com.example.lesson12_sqlite"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "926216093259-7j6vj626vi35g18euip6o0ctp7tiet5u.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.lesson12_sqlite",
+            "certificate_hash": "11d3c53d5f6322d6a69a47caa83b64277a42a9ab"
+          }
+        },
+        {
+          "client_id": "926216093259-jia2ekp1q1q449nnfmc1cuim5ohcendl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCXxE2hjlwsVQwTiMzMsT1VGE_bEWoGx-0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "926216093259-jia2ekp1q1q449nnfmc1cuim5ohcendl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

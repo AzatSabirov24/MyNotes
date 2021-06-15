@@ -1,5 +1,10 @@
 <resources>
     <string name="app_name">My Notes</string>
-    <string name="empty_text">Отсутсвует название или описание заметки</string>
+    <string name="empty_text">Отсутствует название или описание заметки</string>
     <string name="delete_item">delete</string>
+    <string name="continue_">Продолжить</string>
+    <string name="error_sign_in">Ошибка</string>
+     <string name="sign_out">Выйти</string>
+    <string name="dialog_delete">Удалить?</string>
+    <string name="dialog_positive_btn">Ok</string>
 </resources>
