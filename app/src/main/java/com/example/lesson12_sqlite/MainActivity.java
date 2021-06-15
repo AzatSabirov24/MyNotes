@@ -106,6 +106,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
 
+        // добавление AlertDialog при удалении
+
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setTitle(R.string.dialog_delete);
         builder.setIcon(R.drawable.ic_dialog_delete);
