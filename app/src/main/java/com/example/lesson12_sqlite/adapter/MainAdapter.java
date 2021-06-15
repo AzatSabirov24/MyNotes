@@ -22,9 +22,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MyViewHolder> {
-    private Context context;
+    private final Context context;
     public List<ListItem> mainArray;
-    private Activity activity;
+    private final Activity activity;
     private int menuPosition;
 
     public MainAdapter(Context context, Activity activity) {
@@ -56,10 +56,9 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MyViewHolder> 
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnCreateContextMenuListener {
-        private TextView tvTitle;
-        private Context context;
-        private List<ListItem> mainArray;
-
+        private final TextView tvTitle;
+        private final Context context;
+        private final List<ListItem> mainArray;
 
         public MyViewHolder(@NonNull View itemView, Context context, List<ListItem> mainArray) {
             super(itemView);
